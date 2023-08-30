@@ -46,34 +46,34 @@ func CreateFeaturePlaylists(client *spotify.Client, user *spotify.PrivateUser) {
 	}
 
 	log.Printf("Playlist has %d total tracks", currentUserTracks.Total)
-	var acousticTracks []spotify.FullTrack
-	var highEnergyTracks []spotify.FullTrack
-	var lowEnergyTracks []spotify.FullTrack
-	var instrumentalTracks []spotify.FullTrack
-	var positiveTracks []spotify.FullTrack
-	var negativeTracks []spotify.FullTrack
+	var acousticTracks []spotify.SimpleTrack
+	var highEnergyTracks []spotify.SimpleTrack
+	var lowEnergyTracks []spotify.SimpleTrack
+	var instrumentalTracks []spotify.SimpleTrack
+	var positiveTracks []spotify.SimpleTrack
+	var negativeTracks []spotify.SimpleTrack
 
 	for page := 1; ; page++ {
 		for _, track := range currentUserTracks.Tracks {
 			//fmt.Println(track.Artists[0].Name, track.Name)
 			trackFeatures := GetTrackFeatures(client, track.FullTrack)
 			if IsTrackAcoustic(trackFeatures) {
-				acousticTracks = append(acousticTracks, track.FullTrack)
+				acousticTracks = append(acousticTracks, track.SimpleTrack)
 			}
 			if IsTrackHighEnergy(trackFeatures) {
-				highEnergyTracks = append(highEnergyTracks, track.FullTrack)
+				highEnergyTracks = append(highEnergyTracks, track.SimpleTrack)
 			}
 			if IsTrackLowEnergy(trackFeatures) {
-				lowEnergyTracks = append(lowEnergyTracks, track.FullTrack)
+				lowEnergyTracks = append(lowEnergyTracks, track.SimpleTrack)
 			}
 			if IsTrackInstrumental(trackFeatures) {
-				instrumentalTracks = append(instrumentalTracks, track.FullTrack)
+				instrumentalTracks = append(instrumentalTracks, track.SimpleTrack)
 			}
 			if IsTrackPositive(trackFeatures) {
-				positiveTracks = append(positiveTracks, track.FullTrack)
+				positiveTracks = append(positiveTracks, track.SimpleTrack)
 			}
 			if IsTrackNegative(trackFeatures) {
-				negativeTracks = append(negativeTracks, track.FullTrack)
+				negativeTracks = append(negativeTracks, track.SimpleTrack)
 			}
 		}
 
