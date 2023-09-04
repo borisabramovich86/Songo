@@ -4,6 +4,7 @@ go 1.21.0
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/tjarratt/babble v0.0.0-20210505082055-cbca2a4833c1 // indirect
 	github.com/zmb3/spotify/v2 v2.3.1 // indirect
 	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d // indirect
 	golang.org/x/oauth2 v0.0.0-20210810183815-faf39c7919d5 // indirect
