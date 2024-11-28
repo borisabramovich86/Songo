@@ -1,11 +1,12 @@
-package main
+package playlists
 
 import (
-	"github.com/zmb3/spotify/v2"
+	"context"
 	"log"
+	"github.com/zmb3/spotify/v2"
 )
 
-func GetTrackFeatures(client *spotify.Client, track spotify.FullTrack) *spotify.AudioFeatures {
+func GetTrackFeatures(ctx context.Context, client *spotify.Client, track spotify.FullTrack) *spotify.AudioFeatures {
 	features, err := client.GetAudioFeatures(ctx, track.ID)
 	if err != nil {
 		log.Fatal("error getting audio features...", err.Error())
@@ -38,7 +39,7 @@ func IsTrackNegative(trackFeatures *spotify.AudioFeatures) bool {
 	return trackFeatures.Valence <= 0.4
 }
 
-func CreateFeaturePlaylists(client *spotify.Client, user *spotify.PrivateUser) {
+func CreateFeaturePlaylists(ctx context.Context, client *spotify.Client, user *spotify.PrivateUser) {
 	currentUserTracks, err := client.CurrentUsersTracks(ctx)
 	if err != nil {
 		log.Fatal("error getting user tracks...", err.Error())
@@ -55,8 +56,7 @@ func CreateFeaturePlaylists(client *spotify.Client, user *spotify.PrivateUser) {
 
 	for page := 1; ; page++ {
 		for _, track := range currentUserTracks.Tracks {
-			//fmt.Println(track.Artists[0].Name, track.Name)
-			trackFeatures := GetTrackFeatures(client, track.FullTrack)
+			trackFeatures := GetTrackFeatures(ctx, client, track.FullTrack)
 			if IsTrackAcoustic(trackFeatures) {
 				acousticTracks = append(acousticTracks, track.SimpleTrack)
 			}
@@ -86,10 +86,10 @@ func CreateFeaturePlaylists(client *spotify.Client, user *spotify.PrivateUser) {
 		}
 	}
 
-	CreatePlaylist(client, "Library - Acoustic", user.ID, acousticTracks)
-	CreatePlaylist(client, "Library - High Energy", user.ID, highEnergyTracks)
-	CreatePlaylist(client, "Library - Low Energy", user.ID, lowEnergyTracks)
-	CreatePlaylist(client, "Library - Instrumental", user.ID, instrumentalTracks)
-	CreatePlaylist(client, "Library - Positive", user.ID, positiveTracks)
-	CreatePlaylist(client, "Library - Negative", user.ID, negativeTracks)
+	CreatePlaylist(ctx, client, "Library - Acoustic", user.ID, acousticTracks)
+	// CreatePlaylist(client, "Library - High Energy", user.ID, highEnergyTracks)
+	// CreatePlaylist(client, "Library - Low Energy", user.ID, lowEnergyTracks)
+	// CreatePlaylist(client, "Library - Instrumental", user.ID, instrumentalTracks)
+	// CreatePlaylist(client, "Library - Positive", user.ID, positiveTracks)
+	// CreatePlaylist(client, "Library - Negative", user.ID, negativeTracks)
 }

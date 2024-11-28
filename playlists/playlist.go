@@ -1,13 +1,14 @@
-package main
+package playlists
 
 import (
+	"context"
 	"fmt"
-	"github.com/zmb3/spotify/v2"
 	"log"
 	"strings"
+	"github.com/zmb3/spotify/v2"
 )
 
-func CreatePlaylist(client *spotify.Client, playlistName string, userId string, tracks []spotify.SimpleTrack) {
+func CreatePlaylist(ctx context.Context, client *spotify.Client, playlistName string, userId string, tracks []spotify.SimpleTrack) {
 	fmt.Println("Creating playlist:", playlistName)
 	playlist, err := client.CreatePlaylistForUser(ctx, userId, playlistName, "", false, false)
 	if err != nil {
@@ -45,7 +46,7 @@ func IntersectPlaylists(a []spotify.PlaylistItemTrack, b []spotify.PlaylistItemT
 	return set
 }
 
-func GetUserPlaylistTracksWithPrefix(client *spotify.Client, prefix string) map[string][]spotify.PlaylistItemTrack {
+func GetUserPlaylistTracksWithPrefix(ctx context.Context, client *spotify.Client, prefix string) map[string][]spotify.PlaylistItemTrack {
 	userPlaylists, err := client.CurrentUsersPlaylists(ctx)
 
 	if err != nil {
@@ -91,25 +92,25 @@ func GetUserPlaylistTracksWithPrefix(client *spotify.Client, prefix string) map[
 	return playlists
 }
 
-func CreateIntersectingPlaylists(client *spotify.Client, userId string) {
-	playlists := GetUserPlaylistTracksWithPrefix(client, "Library")
+func CreateIntersectingPlaylists(ctx context.Context, client *spotify.Client, userId string) {
+	playlists := GetUserPlaylistTracksWithPrefix(ctx, client, "Library")
 
 	positiveInstrumental := IntersectPlaylists(playlists["Library - Positive"], playlists["Library - Instrumental"])
-	CreatePlaylist(client, "Library - Positive Instrumentals", userId, positiveInstrumental)
+	CreatePlaylist(ctx, client, "Library - Positive Instrumentals", userId, positiveInstrumental)
 
 	negativeInstrumental := IntersectPlaylists(playlists["Library - Negative"], playlists["Library - Instrumental"])
-	CreatePlaylist(client, "Library - Negative Instrumentals", userId, negativeInstrumental)
+	CreatePlaylist(ctx, client, "Library - Negative Instrumentals", userId, negativeInstrumental)
 
 	positiveAcoustic := IntersectPlaylists(playlists["Library - Positive"], playlists["Library - Acoustic"])
-	CreatePlaylist(client, "Library - Positive Acoustic", userId, positiveAcoustic)
+	CreatePlaylist(ctx, client, "Library - Positive Acoustic", userId, positiveAcoustic)
 
 	negativeAcoustic := IntersectPlaylists(playlists["Library - Negative"], playlists["Library - Acoustic"])
-	CreatePlaylist(client, "Library - Negative Acoustic", userId, negativeAcoustic)
+	CreatePlaylist(ctx, client, "Library - Negative Acoustic", userId, negativeAcoustic)
 
 	highEnergyInstrumental := IntersectPlaylists(playlists["Library - High Energy"], playlists["Library - Instrumental"])
-	CreatePlaylist(client, "Library - HighEnergyInstrumental", userId, highEnergyInstrumental)
+	CreatePlaylist(ctx, client, "Library - HighEnergyInstrumental", userId, highEnergyInstrumental)
 
 	lowEnergyInstrumental := IntersectPlaylists(playlists["Library - Low Energy"], playlists["Library - Instrumental"])
-	CreatePlaylist(client, "Library - Low Energy Instrumental", userId, lowEnergyInstrumental)
+	CreatePlaylist(ctx, client, "Library - Low Energy Instrumental", userId, lowEnergyInstrumental)
 
 }
