@@ -87,9 +87,9 @@ func CreateFeaturePlaylists(ctx context.Context, client *spotify.Client, user *s
 	}
 
 	CreatePlaylist(ctx, client, "Library - Acoustic", user.ID, acousticTracks)
-	// CreatePlaylist(client, "Library - High Energy", user.ID, highEnergyTracks)
-	// CreatePlaylist(client, "Library - Low Energy", user.ID, lowEnergyTracks)
-	// CreatePlaylist(client, "Library - Instrumental", user.ID, instrumentalTracks)
-	// CreatePlaylist(client, "Library - Positive", user.ID, positiveTracks)
-	// CreatePlaylist(client, "Library - Negative", user.ID, negativeTracks)
+	CreatePlaylist(ctx, client, "Library - High Energy", user.ID, highEnergyTracks)
+	CreatePlaylist(ctx, client, "Library - Low Energy", user.ID, lowEnergyTracks)
+	CreatePlaylist(ctx, client, "Library - Instrumental", user.ID, instrumentalTracks)
+	CreatePlaylist(ctx, client, "Library - Positive", user.ID, positiveTracks)
+	CreatePlaylist(ctx, client, "Library - Negative", user.ID, negativeTracks)
 }
