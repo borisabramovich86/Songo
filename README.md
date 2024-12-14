@@ -1,12 +1,12 @@
 # Songo
 
 Split user tracks by Spotify Audio Features and create a playlist for each feature:
-- Library - Acoustic  
-- Library - High Energy  
-- Library - Low Energy   
-- Library - Instrumental  
-- Library - Positive  
-- Library - Negative  
+- Acoustic  
+- High Energy  
+- Low Energy   
+- Instrumental  
+- Positive  
+- Negative  
 
 Spotify Audio features:  
 https://developer.spotify.com/documentation/web-api/reference/get-audio-features
